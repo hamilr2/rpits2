@@ -27,6 +27,9 @@ module.exports = {
   ],
   rules: {
     "react/jsx-filename-extension": "off",
+    "object-curly-newline": ["error", {
+      "ImportDeclaration": "never",
+    }],
   },
   settings: {
     flowtype: {
