@@ -1,5 +1,12 @@
 // @flow
 
+declare class process {
+  static env: {
+    REACT_APP_RPITS_V1_HOST: string,
+    REACT_APP_RPITS_V1_DB: string,
+  }
+}
+
 export type Title = any;
 
 export type Event = {

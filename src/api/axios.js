@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1/rpits',
+  baseURL: `${process.env.REACT_APP_RPITS_V1_HOST || ''}`,
 });
 
 export default instance;

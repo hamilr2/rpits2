@@ -1,68 +1,47 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# RPI TV Titling System (v2)
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This project is a in-place re-write of the [original RPITS](https://github.com/rpitv/rpits) utilizing newer technologies. The original RPITS is a software suite that automates the creation of consistently themed graphics for television broadcast, with an emphasis on sports broadcasts, as used by [RPI TV](http://rpitv.org/). The suite integrates static player statistics and real time stat sources, and offers a UI to select graphics to send to [a separate keyer](https://github.com/exavideo/exacore).
 
-### `yarn start`
+The goal of RPITS v2 is to gradually re-write the functionality of RPITS v1 in place and feature complete, as most portions of RPITS v1 are loosely couple enough that the UI, API, Database, Data Acquisition, Image Rendering, and Keying can be swapped out one-by-one. The overall UI behavior, data structure, and templating system will be mostly maintained to ensure easy switchover for graphics operators.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+RPITS v2 Phases:
+1. Re-implement Live UI in React
+1. Render titles in React
+1. Set up events in React
+1. Re-implement extant server-side functionality in Node
+1. Build Node Websocket-based live sync service
+1. Re-implement static/live data acquisition parsers/scrapers
+1. Integrate headless Chromium into keyer
+1. Integrate [Scoreboard](https://github.com/exavideo/scoreboard) directly into RPITS
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+For reference, the legacy RPITS v1 tech stack:
+* PHP
+* ImageMagick
+* MySQL
+* JS / jQuery UI
 
-### `yarn test`
+## Usage Notes
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Dependencies
 
-### `yarn build`
+Up until the completion of Phase 4, RPITS v2 will require a full running version of RPITS v1. Instructions below are solely for v2; see the [INSTALL](https://github.com/rpitv/rpits/blob/php7/INSTALL) of v1 for legacy install instructions.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+* `npm install`
+* Edit .env to point to RPITS v1 (no changes needed for a default v1 install)
+* `npm start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## History
 
-### `yarn eject`
+The origins of what would become RPITS started with software written by Reilly Hamilton in Fall 2008. At that time, RPI TV used a Panasonic AG-MX70 video switcher, and graphics were displayed by loading PNGs into Panasonic software on a directly connected PC, which would sync/transmit the files over to the switcher. The technical director would then display the graphic by hitting the 'DSK' button on the switcher. The PNGs were created from Photoshop files in a time consuming process that restricted incorporation of statistics and other often-updated values.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+RPITS was created to automate this process by generating a set of "statscard" PNGs for each player on a team, powered by PHP, using the GD image library, a MySQL database, and a CSV stat loader. The software was expanded to create all nature of titles, using consistent design language and a text file based templating scheme that allowed for overrides from a database.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+In Fall 2011, RPI TV upgraded to a full HD setup, utilizing a Ross Crossover 12 production video switcher. Rather than key on the switcher, keying functionality was performed completely downstream using Blackmagic Decklink capture cards. Under the new system, images http POST'd to they keyer server would be displayed. RPITS added a javascript UI to select graphics for display and used PHP to post the files to the keyer.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+During the transition of graphics to HD, GD was swapped out for ImageMagick, which offered better text rendering capabilities and more dynamic painting techniques. The current graphical theme used by RPI TV was developed in Winter 2012 for the ECAC Hockey Men's Tournament. Most subsequent updates have centered around automation and usability: dynamic fields for text and colors in titles were introduced to rapidly set up new broadcast events, auto-scraping/importing of player stats replaced manual updates, and integration with live-stats XML created titles that updated as the event was underway. New templates, animation via PNG sequence, and moving headshots added to the presentation.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+RPITS is still used in production broadcasts by RPI TV as of Spring 2020.

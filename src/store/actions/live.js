@@ -3,7 +3,7 @@ import axios from '../../api/axios';
 import type { Event, TitleList, Title } from '../../coreTypes';
 import type { LiveState } from '../reducers/live';
 
-const DB_NAME = 'rpits';
+const DB_NAME = process.env.REACT_APP_RPITS_V1_DB || '';
 
 type SetEventAction = {
   type: 'SET_EVENT',

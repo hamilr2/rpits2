@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import type { Title } from '../../../../coreTypes';
 
+const RPITS_HOST = process.env.REACT_APP_RPITS_V1_HOST || '';
+
 const TitleRow = styled.div`
   font-size: 24px;
   width: 100%;
@@ -71,7 +73,7 @@ const TitleListItem = ({ index, title, selected }: Props) => (
         /* eslint-enable react/jsx-props-no-spreading */
         ref={provided.innerRef}
       >
-        <Thumbnail src={`http://127.0.0.1/rpits/thumbs/${getFilename(title)}`} />
+        <Thumbnail src={`${RPITS_HOST}/thumbs/${getFilename(title)}`} />
         <TitleName>{getDisplayName(title)}</TitleName>
       </TitleRow>
     )}
